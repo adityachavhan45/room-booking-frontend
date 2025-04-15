@@ -37,7 +37,7 @@ const RoomManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('http://localhost:5000/api/admin/rooms', config);
+      const response = await axios.get('https://room-booking-backend-s2wi.onrender.com/api/admin/rooms', config);
       setRooms(response.data.data);
       setLoading(false);
       setError('');
@@ -67,7 +67,7 @@ const RoomManagement = () => {
         available: true
       };
 
-      const response = await axios.post('http://localhost:5000/api/admin/rooms', roomData, {
+      const response = await axios.post('https://room-booking-backend-s2wi.onrender.com/api/admin/rooms', roomData, {
         headers: { 
           'Authorization': `Bearer ${adminToken}`,
           'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ const RoomManagement = () => {
       console.log('Sending room data:', roomData); // Debug log
 
       const response = await axios.put(
-        `http://localhost:5000/api/admin/rooms/${editingRoom._id}`,
+        `https://room-booking-backend-s2wi.onrender.com/api/admin/rooms/${editingRoom._id}`,
         roomData,
         {
           headers: { 
@@ -154,7 +154,7 @@ const RoomManagement = () => {
           headers: { Authorization: `Bearer ${adminToken}` }
         };
 
-        const response = await axios.delete(`http://localhost:5000/api/admin/rooms/${roomId}`, config);
+        const response = await axios.delete(`https://room-booking-backend-s2wi.onrender.com/api/admin/rooms/${roomId}`, config);
         if (response.data.success) {
           await fetchRooms();
         }

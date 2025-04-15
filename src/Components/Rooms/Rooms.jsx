@@ -38,7 +38,7 @@ const Rooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/rooms');
+        const response = await fetch('https://room-booking-backend-s2wi.onrender.com/api/rooms');
         const data = await response.json();
         if (data.success) {
           setRooms(data.data);
@@ -81,7 +81,7 @@ const Rooms = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/bookings/book-room', {
+      const response = await fetch('https://room-booking-backend-s2wi.onrender.com/api/bookings/book-room', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

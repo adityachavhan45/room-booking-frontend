@@ -12,7 +12,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/admin-auth/login', {
+      const response = await axios.post('https://room-booking-backend-s2wi.onrender.com/api/admin-auth/login', {
         username,
         password
       });

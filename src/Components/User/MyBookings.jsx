@@ -21,7 +21,7 @@ const MyBookings = () => {
 
     const fetchMyBookings = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/bookings/my-bookings', {
+            const response = await axios.get('https://room-booking-backend-s2wi.onrender.com/api/bookings/my-bookings', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setBookings(response.data);
@@ -34,7 +34,7 @@ const MyBookings = () => {
 
     const cancelBooking = async (bookingId) => {
         try {
-            await axios.put(`http://localhost:5000/api/bookings/${bookingId}/cancel`, {}, {
+            await axios.put(`https://room-booking-backend-s2wi.onrender.com/api/bookings/${bookingId}/cancel`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchMyBookings(); // Refresh bookings after cancellation
