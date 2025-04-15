@@ -1,0 +1,217 @@
+.facilities-container {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.facilities-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('/images/facilities-hero.jpg') no-repeat center center/cover;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+}
+
+.facilities-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.facilities-hero p {
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+}
+
+.facilities-grid {
+    max-width: 1200px;
+    margin: -50px auto 0;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    position: relative;
+}
+
+.facility-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.facility-card:hover {
+    transform: translateY(-5px);
+}
+
+.facility-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.facility-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.facility-card:hover .facility-image img {
+    transform: scale(1.1);
+}
+
+.facility-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+}
+
+.facility-overlay h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.facility-content {
+    padding: 1.5rem;
+}
+
+.facility-description {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.facility-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.facility-features li {
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.facility-features li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #2c5282;
+    font-weight: bold;
+}
+
+.learn-more-btn {
+    background: #2c5282;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.learn-more-btn:hover {
+    background: #2d3748;
+}
+
+.facilities-info {
+    background: #f7fafc;
+    padding: 4rem 2rem;
+    margin-top: 3rem;
+}
+
+.info-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h2 {
+    color: #2c5282;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-card ul li {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.info-card ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #2c5282;
+}
+
+@media (max-width: 768px) {
+    .facilities-hero {
+        height: 300px;
+    }
+
+    .facilities-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .facilities-hero p {
+        font-size: 1.1rem;
+    }
+
+    .facilities-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .facility-card {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.facility-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+    animation-delay: calc(var(--animation-order) * 0.1s);
+}
