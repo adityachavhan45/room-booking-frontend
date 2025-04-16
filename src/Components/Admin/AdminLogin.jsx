@@ -11,16 +11,28 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      const response = await axios.post('https://room-booking-backend-production.up.railway.app/api/admin-auth/login', {
+      const response = await axios.post('https://room-booking-backend-9vb5.onrender.com/api/admin-auth/login', {
         username,
         password
       });
       
-      localStorage.setItem('adminToken', response.data.token);
-      navigate('/admin/dashboard');
+      if (response.data.token) {
+        localStorage.setItem('adminToken', response.data.token);
+        navigate('/admin/dashboard');
+      } else {
+        setError('Login failed - No token received');
+      }
     } catch (error) {
-      setError('Invalid credentials');
+      if (error.response) {
+        setError(error.response.data.message || 'Invalid credentials');
+      } else if (error.request) {
+        setError('Network error - Please check your internet connection');
+      } else {
+        setError('An unexpected error occurred');
+      }
+      console.error('Login error:', error);
     }
   };
 

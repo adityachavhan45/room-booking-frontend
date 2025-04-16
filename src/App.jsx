@@ -5,7 +5,8 @@ import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import ScrollToTop from './Components/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import ProtectedRoute from './Components/Admin/ProtectedRoute';
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
 
 // Lazy load components
@@ -34,7 +35,7 @@ function App() {
                 <Suspense fallback={<div className="loading">Loading...</div>}>
                   <Routes>
                     <Route path="login" element={<AdminLogin />} />
-                    <Route path="dashboard/*" element={<AdminDashboard />} />
+                    <Route path="dashboard/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
                   </Routes>
                 </Suspense>
               }

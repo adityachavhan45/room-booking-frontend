@@ -34,7 +34,7 @@ const Rooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('https://room-booking-backend-production.up.railway.app/api/rooms');
+        const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/rooms');
         const data = await response.json();
         if (data.success) {
           setRooms(data.data);
@@ -73,7 +73,7 @@ const Rooms = () => {
     }
 
     try {
-      const response = await fetch('https://room-booking-backend-production.up.railway.app/api/bookings/book-room', {
+      const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/bookings/book-room', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
