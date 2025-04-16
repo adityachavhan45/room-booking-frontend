@@ -28,7 +28,7 @@ export default function Login() {
     const endpoint = isLogin ? 'login' : 'register';
     
     try {
-      const response = await fetch(`https://room-booking-backend-s2wi.onrender.com/api/auth/${endpoint}`, {
+      const response = await fetch(`https://room-booking-backend-production.up.railway.app/api/auth/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default function Login() {
               </div>
             )}
 
-            <button type="submit" className="auth-button">
+            <button type="submit" className="auth-button styled-auth-button">
               {isLogin ? 'Sign In' : 'Sign Up'}
             </button>
           </form>
@@ -158,7 +158,7 @@ export default function Login() {
           <div className="auth-footer">
             <p>
               {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <button type="button" onClick={toggleForm} className="toggle-button">
+              <button type="button" onClick={toggleForm} className="toggle-button styled-toggle-button">
                 {isLogin ? 'Sign Up' : 'Sign In'}
               </button>
             </p>

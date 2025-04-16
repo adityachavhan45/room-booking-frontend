@@ -20,7 +20,7 @@ const UserManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('https://room-booking-backend-s2wi.onrender.com/api/admin/users', config);
+      const response = await axios.get('https://room-booking-backend-production.up.railway.app/api/admin/users', config);
       setUsers(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,7 +38,7 @@ const UserManagement = () => {
           headers: { Authorization: `Bearer ${adminToken}` }
         };
 
-        await axios.delete(`https://room-booking-backend-s2wi.onrender.comapi/admin/users/${userId}`, config);
+        await axios.delete(`https://room-booking-backend-production.up.railway.app/admin/users/${userId}`, config);
         toast.success('User deleted successfully');
         fetchUsers(); // Refresh the users list
       } catch (error) {

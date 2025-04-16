@@ -18,6 +18,8 @@ function Footer() {
           <ul className="footer-links">
             <li><Link to="/rooms" className="footer-link">Rooms</Link></li>
             <li><Link to="/services" className="footer-link">Services</Link></li>
+            {/* <li><Link to="/facilities" className="footer-link">Facilities</Link></li> */}
+            {/* <li><Link to="/offers" className="footer-link">Offers</Link></li> */}
             <li><Link to="/contact" className="footer-link">Contact Us</Link></li>
             <li><Link to="/about" className="footer-link">About Us</Link></li>
           </ul>

@@ -89,7 +89,7 @@ const About = () => {
         </div>
       </section>
 
-      <section className="team-section">
+      {/* <section className="team-section">
         <div className="container">
           <h2>Our Leadership Team</h2>
           <div className="team-grid">
@@ -104,7 +104,7 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="cta-section" style={{ backgroundImage: 'url(https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg)' }}>
         <div className="container">

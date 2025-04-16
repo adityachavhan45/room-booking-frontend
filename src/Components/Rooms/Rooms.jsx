@@ -21,11 +21,7 @@ const Rooms = () => {
   const navigate = useNavigate();
   const { token, isAuthenticated } = useAuth();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [filters, setFilters] = useState({
-    priceRange: [1000, 5000],
-    type: 'all',
-    minCapacity: 1
-  });
+  const [filters, setFilters] = useState({});
   const [bookingData, setBookingData] = useState({
     checkIn: '',
     checkOut: '',
@@ -38,7 +34,7 @@ const Rooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('https://room-booking-backend-s2wi.onrender.com/api/rooms');
+        const response = await fetch('https://room-booking-backend-production.up.railway.app/api/rooms');
         const data = await response.json();
         if (data.success) {
           setRooms(data.data);
@@ -67,10 +63,6 @@ const Rooms = () => {
     bathtub: <FaBath />
   };
 
-  const handleFilterChange = (type, value) => {
-    setFilters(prev => ({ ...prev, [type]: value }));
-  };
-
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     const storedToken = localStorage.getItem('userToken');
@@ -81,7 +73,7 @@ const Rooms = () => {
     }
 
     try {
-      const response = await fetch('https://room-booking-backend-s2wi.onrender.com/api/bookings/book-room', {
+      const response = await fetch('https://room-booking-backend-production.up.railway.app/api/bookings/book-room', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -112,12 +104,7 @@ const Rooms = () => {
     }
   };
 
-  const filteredRooms = rooms.filter(room => {
-    const meetsPrice = room.price >= filters.priceRange[0] && room.price <= filters.priceRange[1];
-    const meetsType = filters.type === 'all' || room.type === filters.type;
-    const meetsCapacity = room.capacity.adults >= filters.minCapacity;
-    return meetsPrice && meetsType && meetsCapacity && room.available;
-  });
+  const filteredRooms = rooms.filter(room => room.available);
 
   if (rooms.length === 0) {
     return (
@@ -147,46 +134,6 @@ const Rooms = () => {
         <div className="hero-content">
           <h1>Our Rooms</h1>
           <p>Comfortable and affordable accommodations for everyone</p>
-        </div>
-      </section>
-
-      <section className="filter-section">
-        <div className="filter-container">
-          <div className="filter-group">
-            <label>Price Range</label>
-            <input 
-              type="range" 
-              min="1000" 
-              max="5000" 
-              step="500"
-              value={filters.priceRange[1]} 
-              onChange={(e) => handleFilterChange('priceRange', [1000, parseInt(e.target.value)])}
-            />
-            <span>{formatPrice(filters.priceRange[0])} - {formatPrice(filters.priceRange[1])}</span>
-          </div>
-          
-          <div className="filter-group">
-            <label>Room Type</label>
-            <select 
-              value={filters.type}
-              onChange={(e) => handleFilterChange('type', e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="single">Single</option>
-              <option value="double">Double</option>
-              <option value="suite">Suite</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label>Capacity</label>
-            <input 
-              type="number"
-              min="1"
-              value={filters.minCapacity}
-              onChange={(e) => handleFilterChange('minCapacity', parseInt(e.target.value))}
-            />
-          </div>
         </div>
       </section>
 

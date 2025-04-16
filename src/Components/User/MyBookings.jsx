@@ -34,7 +34,7 @@ const MyBookings = () => {
 
     const cancelBooking = async (bookingId) => {
         try {
-            await axios.put(`https://room-booking-backend-s2wi.onrender.com/api/bookings/${bookingId}/cancel`, {}, {
+            await axios.put(`https://room-booking-backend-production.up.railway.app/api/bookings/${bookingId}/cancel`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchMyBookings(); // Refresh bookings after cancellation
