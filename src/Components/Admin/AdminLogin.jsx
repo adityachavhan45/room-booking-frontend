@@ -12,7 +12,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/admin-auth/login', {
+      const response = await axios.post('https://room-booking-backend-production.up.railway.app/api/admin-auth/login', {
         username,
         password
       });
