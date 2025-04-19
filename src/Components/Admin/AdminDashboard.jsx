@@ -49,7 +49,7 @@ const AdminDashboard = () => {
           >
             <i className="fas fa-home"></i>
             Dashboard
-          </a>room-booking-backend-production.up.railway.app
+          </a>
           <a 
             href="#"
             className={activePage === 'users' ? 'active' : ''}
