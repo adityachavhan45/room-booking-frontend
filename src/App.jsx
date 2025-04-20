@@ -21,6 +21,7 @@ const Login = lazy(() => import('./Components/Login/Login'));
 const AdminLogin = lazy(() => import('./Components/Admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('./Components/Admin/AdminDashboard'));
 const MyBookings = lazy(() => import('./Components/User/MyBookings'));
+const UserProfile = lazy(() => import('./Components/User/UserProfile'));
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/my-bookings" element={<MyBookings />} />
+                        <Route path="/profile" element={<UserProfile />} />
                         
                       </Routes>
                     </Suspense>
