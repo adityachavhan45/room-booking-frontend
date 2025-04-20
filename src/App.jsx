@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import ProtectedRoute from './Components/Admin/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
+import Profile from './Components/Profile/Profile';
 
 // Lazy load components
 const Home = lazy(() => import('./Components/Home/Home'));
@@ -56,6 +57,7 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/my-bookings" element={<MyBookings />} />
+                        <Route path="/Profile" element={<Profile />} />
                       </Routes>
                     </Suspense>
                   </main>

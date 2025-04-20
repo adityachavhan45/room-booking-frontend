@@ -105,7 +105,7 @@ const Header = () => {
                     </div>
                   </div>
                   <div className="user-menu-items">
-                    <Link to="/profile" className="user-menu-item" onClick={() => setIsUserMenuOpen(false)}>
+                    <Link to="/Profile" className="user-menu-item" onClick={() => setIsUserMenuOpen(false)}>
                       <span className="material-icons">person</span>
                       Profile
                     </Link>
