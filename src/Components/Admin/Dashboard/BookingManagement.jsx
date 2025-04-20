@@ -33,16 +33,17 @@ const BookingManagement = () => {
       const config = {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
-
-      await axios.patch(`https://room-booking-backend-9vb5.onrender.com/admin/bookings/${bookingId}/status`, {
+  
+      await axios.patch(`https://room-booking-backend-9vb5.onrender.com/api/admin/bookings/${bookingId}/status`, {
         status: newStatus
       }, config);
-
+  
       fetchBookings();
     } catch (error) {
       console.error('Error updating booking status:', error);
     }
   };
+  
 
   const filteredBookings = bookings.filter(booking => {
     if (filter === 'all') return true;
