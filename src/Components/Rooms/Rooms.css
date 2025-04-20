@@ -553,6 +553,32 @@
   font-size: 1.2rem;
 }
 
+.submit-button {
+  background: linear-gradient(to right, #00b4db, #0083b0);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 179, 255, 0.3);
+}
+
+.submit-button:hover {
+  background: linear-gradient(to right, #0083b0, #00b4db);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 179, 255, 0.5);
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
