@@ -124,7 +124,7 @@ const RoomManagement = () => {
       console.log('Sending room data:', roomData); // Debug log
 
       const response = await axios.put(
-        `https://room-booking-backend-9vb5.onrender.com/admin/rooms/${editingRoom._id}`,
+        `https://room-booking-backend-9vb5.onrender.com/api/admin/rooms/${editingRoom._id}`,
         roomData,
         {
           headers: { 
