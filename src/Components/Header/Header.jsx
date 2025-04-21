@@ -10,6 +10,8 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const userMenuRef = useRef(null);
+  const menuRef = useRef(null);
+  const menuToggleRef = useRef(null);
   const userName = localStorage.getItem('userName');
   const { isAuthenticated: isLoggedIn, logout } = useAuth();
 
@@ -41,25 +43,54 @@ const Header = () => {
     };
 
     const handleClickOutside = (event) => {
+      // Close user menu when clicking outside
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
+      }
+      
+      // Close mobile menu when clicking outside
+      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target) && 
+          !menuToggleRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    // Close mobile menu on window resize (if screen becomes larger)
+    const handleResize = () => {
+      if (window.innerWidth > 968 && isMenuOpen) {
+        setIsMenuOpen(false);
       }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('resize', handleResize);
     
     return () => {
       window.removeEventListener('scroll', onScroll);
       document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isMenuOpen]);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
     setIsUserMenuOpen(false);
   };
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -71,13 +102,14 @@ const Header = () => {
         <button 
           className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} 
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          ref={menuToggleRef}
           aria-label="Toggle menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+        <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`} ref={menuRef}>
           <Link to="/" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Home</Link>
           <Link to="/rooms" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Rooms</Link>
           {/* <Link to="/facilities" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Facilities</Link> */}
