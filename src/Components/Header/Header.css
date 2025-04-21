@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: white;
+  background-color: #2d3748;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 1rem 0;
@@ -15,7 +15,7 @@
 }
 
 .header.scrolled {
-  background: white;
+  background-color: #2d3748;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
@@ -38,22 +38,13 @@
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #2c5282;
+  color: white;
   text-shadow: none;
   transition: transform 0.3s ease;
 }
 
 .logo:hover {
   transform: scale(1.05);
-}
-
-.logo-img {
-  height: 40px;
-  width: auto;
-}
-
-.scrolled .logo {
-  color: #2c5282;
 }
 
 .menu-toggle {
@@ -72,7 +63,7 @@
 .menu-toggle span {
   width: 100%;
   height: 3px;
-  background-color: #2c5282;
+  background-color: white;
   transition: all 0.3s ease;
 }
 
@@ -88,10 +79,6 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
-.scrolled .menu-toggle span {
-  background-color: #2c5282;
-}
-
 .nav-links {
   display: flex;
   align-items: center;
@@ -99,7 +86,7 @@
 }
 
 .nav-link {
-  color: #2c5282;
+  color: white;
   text-decoration: none;
   font-weight: 500;
   position: relative;
@@ -116,13 +103,13 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: #2c5282;
+  background: #90cdf4;
   transition: width 0.3s ease;
   box-shadow: none;
 }
 
 .nav-link:hover {
-  color: #3182ce;
+  color: #90cdf4;
   transform: translateY(-2px);
 }
 
@@ -131,8 +118,8 @@
 }
 
 .login-btn {
-  background: #2c5282;
-  color: white;
+  background: #90cdf4;
+  color: #2d3748;
   padding: 0.75rem 1.5rem;
   border-radius: 30px;
   text-decoration: none;
@@ -145,8 +132,8 @@
 
 .login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(44, 82, 130, 0.2);
-  background: #3182ce;
+  box-shadow: 0 4px 15px rgba(144, 205, 244, 0.3);
+  background: #63b3ed;
 }
 
 @media (max-width: 968px) {
@@ -160,7 +147,7 @@
     right: -100%;
     height: 100vh;
     width: 300px;
-    background: white;
+    background-color: #2d3748;
     flex-direction: column;
     padding: 80px 2rem;
     transition: right 0.3s ease;
@@ -190,6 +177,9 @@
     padding: 0 1rem;
   }
 }
+
+/* Keep your user-menu, CTA, etc. same as before */
+
 
 /* User Menu Styles */
 .user-menu-container {
