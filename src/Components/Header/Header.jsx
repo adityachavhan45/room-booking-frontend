@@ -73,10 +73,30 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
+  // Close menus when location changes
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setIsMenuOpen(false);
+      setIsUserMenuOpen(false);
+    };
+
+    // Listen for navigation events
+    window.addEventListener('popstate', handleLocationChange);
+    
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
     setIsUserMenuOpen(false);
+  };
+
+  // Toggle menu function
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   // Prevent body scroll when mobile menu is open
@@ -92,6 +112,13 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
+  // Handle navigation with menu closing
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+    setIsUserMenuOpen(false);
+  };
+
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-content">
@@ -101,7 +128,7 @@ const Header = () => {
 
         <button 
           className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={toggleMenu}
           ref={menuToggleRef}
           aria-label="Toggle menu">
           <span></span>
@@ -110,12 +137,12 @@ const Header = () => {
         </button>
 
         <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`} ref={menuRef}>
-          <Link to="/" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to="/rooms" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Rooms</Link>
-          {/* <Link to="/facilities" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Facilities</Link> */}
-          {/* <Link to="/offers" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Offers</Link> */}
-          <Link to="/contact" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Contact</Link>
-          <Link to="/about" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>About</Link>
+          <Link to="/" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/')}>Home</Link>
+          <Link to="/rooms" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/rooms')}>Rooms</Link>
+          {/* <Link to="/facilities" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/facilities')}>Facilities</Link> */}
+          {/* <Link to="/offers" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/offers')}>Offers</Link> */}
+          <Link to="/contact" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/contact')}>Contact</Link>
+          <Link to="/about" className={`nav-link ${navItemInteractive}`} onClick={() => handleNavigation('/about')}>About</Link>
           
           {isLoggedIn ? (
             <div className="user-menu-container" ref={userMenuRef}>
@@ -138,14 +165,14 @@ const Header = () => {
                     </div>
                   </div>
                   <div className="user-menu-items">
-                    <Link to="/profile" className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => setIsUserMenuOpen(false)}>
+                    <div className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => handleNavigation('/profile')}>
                       <span className="material-icons">person</span>
                       Profile
-                    </Link>
-                    <Link to="/my-bookings" className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => setIsUserMenuOpen(false)}>
+                    </div>
+                    <div className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => handleNavigation('/my-bookings')}>
                       <span className="material-icons">book</span>
                       My Bookings
-                    </Link>
+                    </div>
                     <button onClick={handleLogout} className="user-menu-item logout-btn hover:bg-red-50 hover:text-red-600 transition-colors duration-300">
                       <span className="material-icons">logout</span>
                       Logout
@@ -155,7 +182,7 @@ const Header = () => {
               )}
             </div>
           ) : (
-            <Link to="/login" className={`login-btn ${buttonHover}`} onClick={() => setIsMenuOpen(false)}>Login</Link>
+            <div className={`login-btn ${buttonHover}`} onClick={() => handleNavigation('/login')}>Login</div>
           )}
         </nav>
       </div>
