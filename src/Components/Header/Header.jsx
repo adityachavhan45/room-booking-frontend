@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
 import { navItemInteractive, buttonHover } from '../Interactive';
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,20 +74,11 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  // Close menus when location changes
+  // Close menus when route changes (using location from react-router)
   useEffect(() => {
-    const handleLocationChange = () => {
-      setIsMenuOpen(false);
-      setIsUserMenuOpen(false);
-    };
-
-    // Listen for navigation events
-    window.addEventListener('popstate', handleLocationChange);
-    
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-    };
-  }, []);
+    setIsMenuOpen(false);
+    setIsUserMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -114,9 +106,14 @@ const Header = () => {
 
   // Handle navigation with menu closing
   const handleNavigation = (path) => {
-    navigate(path);
+    // First close the menus
     setIsMenuOpen(false);
     setIsUserMenuOpen(false);
+    
+    // Small delay to ensure UI updates before navigation
+    setTimeout(() => {
+      navigate(path);
+    }, 10);
   };
 
   return (
