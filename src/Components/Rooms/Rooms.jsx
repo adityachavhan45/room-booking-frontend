@@ -130,7 +130,7 @@ const Rooms = () => {
 
   return (
     <div className="rooms">
-      <section className="rooms-hero" style={{ backgroundImage: 'url(https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg)' }}>
+      <section className="rooms-hero" style={{ backgroundImage: 'url(https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200)' }}>
         <div className="hero-content">
           <h1>Our Rooms</h1>
           <p>Comfortable and affordable accommodations for everyone</p>

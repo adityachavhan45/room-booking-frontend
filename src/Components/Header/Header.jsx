@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
+import { navItemInteractive, buttonHover } from '../Interactive';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const Header = () => {
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-content">
-        <Link to="/" className="logo">
+        <Link to="/" className="logo hover:scale-105 transition-transform duration-300">
           RoomFusion
         </Link>
 
@@ -77,25 +78,25 @@ const Header = () => {
         </button>
 
         <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-          <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to="/rooms" className="nav-link" onClick={() => setIsMenuOpen(false)}>Rooms</Link>
-          {/* <Link to="/facilities" className="nav-link" onClick={() => setIsMenuOpen(false)}>Facilities</Link> */}
-          {/* <Link to="/offers" className="nav-link" onClick={() => setIsMenuOpen(false)}>Offers</Link> */}
-          <Link to="/contact" className="nav-link" onClick={() => setIsMenuOpen(false)}>Contact</Link>
-          <Link to="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>About</Link>
+          <Link to="/" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <Link to="/rooms" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Rooms</Link>
+          {/* <Link to="/facilities" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Facilities</Link> */}
+          {/* <Link to="/offers" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Offers</Link> */}
+          <Link to="/contact" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>Contact</Link>
+          <Link to="/about" className={`nav-link ${navItemInteractive}`} onClick={() => setIsMenuOpen(false)}>About</Link>
           
           {isLoggedIn ? (
             <div className="user-menu-container" ref={userMenuRef}>
               <button 
-                className="user-menu-button"
+                className="user-menu-button hover:opacity-80 transition-opacity duration-300"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
               >
-                <div className="user-avatar">
+                <div className="user-avatar hover:shadow-lg transition-shadow duration-300">
                   {userName ? userName.charAt(0).toUpperCase() : 'U'}
                 </div>
               </button>
               {isUserMenuOpen && (
-                <div className="user-menu">
+                <div className="user-menu animate-fadeIn">
                   <div className="user-info">
                     <div className="user-avatar-large">
                       {userName ? userName.charAt(0).toUpperCase() : 'U'}
@@ -105,15 +106,15 @@ const Header = () => {
                     </div>
                   </div>
                   <div className="user-menu-items">
-                    <Link to="/profile" className="user-menu-item" onClick={() => setIsUserMenuOpen(false)}>
+                    <Link to="/profile" className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => setIsUserMenuOpen(false)}>
                       <span className="material-icons">person</span>
                       Profile
                     </Link>
-                    <Link to="/my-bookings" className="user-menu-item" onClick={() => setIsUserMenuOpen(false)}>
+                    <Link to="/my-bookings" className="user-menu-item hover:bg-gray-100 transition-colors duration-300" onClick={() => setIsUserMenuOpen(false)}>
                       <span className="material-icons">book</span>
                       My Bookings
                     </Link>
-                    <button onClick={handleLogout} className="user-menu-item logout-btn">
+                    <button onClick={handleLogout} className="user-menu-item logout-btn hover:bg-red-50 hover:text-red-600 transition-colors duration-300">
                       <span className="material-icons">logout</span>
                       Logout
                     </button>
@@ -122,7 +123,7 @@ const Header = () => {
               )}
             </div>
           ) : (
-            <Link to="/login" className="login-btn" onClick={() => setIsMenuOpen(false)}>Login</Link>
+            <Link to="/login" className={`login-btn ${buttonHover}`} onClick={() => setIsMenuOpen(false)}>Login</Link>
           )}
         </nav>
       </div>
