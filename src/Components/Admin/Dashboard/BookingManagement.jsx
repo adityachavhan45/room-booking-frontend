@@ -113,6 +113,7 @@ const BookingManagement = () => {
                   <th>Check Out</th>
                   <th>Guests</th>
                   <th>Amount</th>
+                  <th>Payment Method</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -127,6 +128,11 @@ const BookingManagement = () => {
                     <td>{booking.checkOut}</td>
                     <td>{booking.adults + booking.children}</td>
                     <td>₹{booking.totalAmount}</td>
+                    <td>
+                      <span className={`payment-method ${booking.paymentMethod === 'online' ? 'payment-online' : 'payment-cash'}`}>
+                        {booking.paymentMethod === 'online' ? 'Online Payment' : 'Cash on Check-in'}
+                      </span>
+                    </td>
                     <td>
                       <span className={`status-badge ${getStatusColor(booking.status)}`}>
                         {booking.status}

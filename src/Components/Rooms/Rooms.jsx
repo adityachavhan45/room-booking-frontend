@@ -27,8 +27,10 @@ const Rooms = () => {
     checkIn: '',
     checkOut: '',
     adults: 1,
-    children: 0
+    children: 0,
+    paymentMethod: ''
   });
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,8 +74,7 @@ const Rooms = () => {
     bathtub: <FaBath />
   };
 
-  const handleBookingSubmit = async (e) => {
-    e.preventDefault();
+  const handleBookingSubmit = async (paymentMethod) => {
     const storedToken = localStorage.getItem('userToken');
     
     if (!storedToken) {
@@ -95,6 +96,7 @@ const Rooms = () => {
           checkOut: bookingData.checkOut,
           adults: bookingData.adults,
           children: bookingData.children,
+          paymentMethod: paymentMethod,
           totalAmount: selectedRoom.price // Using room price as total amount for now
         })
       });
@@ -104,6 +106,7 @@ const Rooms = () => {
         alert('Booking successful!');
         setSelectedRoom(null);
         setShowBookingForm(false);
+        setShowPaymentOptions(false);
       } else {
         alert('Error: ' + data.message);
       }
@@ -226,13 +229,16 @@ const Rooms = () => {
           <div className="booking-form">
             <button 
               className="close-booking-form" 
-              onClick={() => setShowBookingForm(false)}
+              onClick={() => {
+                setShowBookingForm(false);
+                setShowPaymentOptions(false);
+              }}
               aria-label="Close booking form"
             >
               ×
             </button>
             <h2>Book {selectedRoom.name}</h2>
-            <form onSubmit={handleBookingSubmit}>
+            <form>
               <div className="form-group">
                 <label>Check-in Date</label>
                 <input 
@@ -272,14 +278,56 @@ const Rooms = () => {
                   onChange={(e) => setBookingData(prev => ({ ...prev, children: parseInt(e.target.value) }))}
                 />
               </div>
+
               <div className="price-summary">
                 <div className="summary-row">
                   <span>Room Rate</span>
                   <span>{formatPrice(selectedRoom.price)} / night</span>
                 </div>
               </div>
-              <button type="submit" className="submit-button">Confirm Booking</button>
+              <button type="button" className="submit-button" onClick={(e) => {
+                e.preventDefault();
+                if(!bookingData.checkIn || !bookingData.checkOut || !bookingData.adults) {
+                  alert('Please fill all required fields');
+                  return;
+                }
+                setShowPaymentOptions(true);
+              }}>Proceed to Payment</button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showPaymentOptions && selectedRoom && (
+        <div className="payment-options-overlay">
+          <div className="payment-options-panel">
+            <button 
+              className="close-payment-options" 
+              onClick={() => setShowPaymentOptions(false)}
+              aria-label="Close payment options"
+            >
+              ×
+            </button>
+            <h2>Select Payment Method</h2>
+            <div className="payment-options-container">
+              <div className="payment-option-card" onClick={() => handleBookingSubmit('cash')}>
+                <div className="payment-icon cash-icon">
+                  <i className="fas fa-money-bill-wave"></i>
+                </div>
+                <h3>Cash on Check-in</h3>
+                <p>Pay at the hotel when you arrive</p>
+                <button className="select-payment-btn">Select</button>
+              </div>
+              
+              <div className="payment-option-card" onClick={() => handleBookingSubmit('online')}>
+                <div className="payment-icon online-icon">
+                  <i className="fas fa-credit-card"></i>
+                </div>
+                <h3>Online Payment</h3>
+                <p>Pay now using credit/debit card</p>
+                <button className="select-payment-btn">Select</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
