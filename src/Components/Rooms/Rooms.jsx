@@ -14,7 +14,8 @@ import {
   FaSnowflake,
   FaTv,
   FaLaptop,
-  FaBath
+  FaBath,
+  FaSpinner
 } from 'react-icons/fa';
 
 const Rooms = () => {
@@ -30,9 +31,13 @@ const Rooms = () => {
   });
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchRooms = async () => {
+      setLoading(true);
+      setError(false);
       try {
         const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/rooms');
         const data = await response.json();
@@ -40,9 +45,13 @@ const Rooms = () => {
           setRooms(data.data);
         } else {
           console.error('Error fetching rooms:', data.message);
+          setError(true);
         }
       } catch (error) {
         console.error(error);
+        setError(true);
+      } finally {
+        setLoading(false);
       }
     };
     fetchRooms();
@@ -106,6 +115,38 @@ const Rooms = () => {
 
   const filteredRooms = rooms.filter(room => room.available);
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-content">
+          <FaSpinner className="loading-spinner" />
+          <h2>Loading Rooms...</h2>
+          <p>Please wait while we fetch the available rooms for you.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-content">
+          <h2>Server is busy</h2>
+          <p>We're experiencing high traffic at the moment. Please wait a moment and try again.</p>
+          <button 
+            className="retry-button"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // No rooms state
   if (rooms.length === 0) {
     return (
       <div className="no-rooms-container">

@@ -647,3 +647,99 @@
     gap: 0.5rem;
   }
 }
+
+/* Loading and Error States */
+.loading-container,
+.error-container,
+.no-rooms-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.loading-content,
+.error-content,
+.no-rooms {
+  text-align: center;
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  color: #4a6cf7;
+  margin-bottom: 1.5rem;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-content h2,
+.error-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.loading-content p,
+.error-content p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.retry-button {
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background-color: #3a57d7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 108, 247, 0.25);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive styles for loading and error states */
+@media (max-width: 768px) {
+  .loading-content,
+  .error-content,
+  .no-rooms {
+    padding: 2rem;
+  }
+  
+  .loading-spinner {
+    font-size: 2.5rem;
+  }
+  
+  .loading-content h2,
+  .error-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .loading-content p,
+  .error-content p {
+    font-size: 1rem;
+  }
+}
