@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import DOMPurify from 'dompurify';
 import './Login.css';
 
 export default function Login() {
@@ -43,12 +44,12 @@ export default function Login() {
       
       if (response.ok) {
         if (isLogin) {
-          login(data.token, data.name); // Use auth context login
+          login(data.token, DOMPurify.sanitize(data.name)); // Sanitize name from server
           const returnUrl = location.state?.returnUrl || '/';
           navigate(returnUrl);
         } else {
           setIsLogin(true);
-          setError('Registration successful! Please login.');
+          setError(DOMPurify.sanitize('Registration successful! Please login.'));
           setFormData(prev => ({
             ...prev,
             password: '',
@@ -56,10 +57,10 @@ export default function Login() {
           }));
         }
       } else {
-        setError(data.message || `${isLogin ? 'Login' : 'Registration'} failed`);
+        setError(DOMPurify.sanitize(data.message || `${isLogin ? 'Login' : 'Registration'} failed`));
       }
     } catch (err) {
-      setError('Server error. Please try again.');
+      setError(DOMPurify.sanitize('Server error. Please try again.'));
     }
   };
 
@@ -67,7 +68,7 @@ export default function Login() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: DOMPurify.sanitize(value)
     }));
   };
 
@@ -92,7 +93,7 @@ export default function Login() {
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />}
             
             {!isLogin && (
               <div className="form-group">
