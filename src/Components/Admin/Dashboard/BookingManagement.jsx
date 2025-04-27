@@ -20,7 +20,7 @@ const BookingManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('http://localhost:5000/api/bookings/admin/all', config);
+      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/bookings/admin/all', config);
       setBookings(response.data.data || []);
       setLoading(false);
     } catch (error) {
@@ -36,7 +36,7 @@ const BookingManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
   
-      await axios.patch(`http://localhost:5000/api/admin/bookings/${bookingId}/status`, {
+      await axios.patch(`https://room-booking-backend-9vb5.onrender.com/api/admin/bookings/${bookingId}/status`, {
         status: newStatus
       }, config);
   

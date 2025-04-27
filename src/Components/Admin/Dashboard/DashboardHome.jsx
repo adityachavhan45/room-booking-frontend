@@ -22,7 +22,7 @@ const DashboardHome = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('http://localhost:5000/api/admin/stats', config);
+      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/stats', config);
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching stats:', error);

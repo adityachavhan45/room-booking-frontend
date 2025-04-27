@@ -19,7 +19,7 @@ const AdminUsers = () => {
       setError(null);
       const token = localStorage.getItem('adminToken');
       console.log('Fetching admins...');
-      const response = await axios.get('http://localhost:5000/api/admin/admins', {
+      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/admins', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Admin users response:', response.data);
@@ -72,7 +72,7 @@ const AdminUsers = () => {
       const token = localStorage.getItem('adminToken');
       if (editMode) {
         const response = await axios.put(
-          `http://localhost:5000/api/admin/admins/${selectedAdmin._id}`,
+          `https://room-booking-backend-9vb5.onrender.com/api/admin/admins/${selectedAdmin._id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -83,7 +83,7 @@ const AdminUsers = () => {
         }
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/admin/admins',
+          'https://room-booking-backend-9vb5.onrender.com/api/admin/admins',
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
