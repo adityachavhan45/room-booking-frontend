@@ -60,9 +60,24 @@ const MyBookings = () => {
                                 <p><strong>Check Out:</strong> {booking.checkOut}</p>
                                 <p><strong>Guests:</strong> {booking.adults} Adults, {booking.children} Children</p>
                                 <p><strong>Amount:</strong> ₹{booking.totalAmount}</p>
-                                <p><strong>Status:</strong> <span className={`status ${booking.status}`}>{booking.status}</span></p>
+                                <p>
+                                    <strong>Payment:</strong> 
+                                    <span className={`payment ${booking.paymentMethod}`}>
+                                        {booking.paymentMethod === 'online' ? 'Online Payment' : 'Cash on Check-in'}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>Status:</strong> 
+                                    <span className={`status ${booking.status}`}>
+                                        {booking.status === 'pending' ? 'Pending Confirmation' :
+                                         booking.status === 'confirmed' ? 'Confirmed' :
+                                         booking.status === 'completed' ? 'Completed' :
+                                         booking.status === 'cancelled' ? 'Cancelled' :
+                                         booking.status === 'rejected' ? 'Rejected' : booking.status}
+                                    </span>
+                                </p>
                             </div>
-                            {booking.status === 'booked' && (
+                            {(booking.status === 'confirmed' || booking.status === 'pending') && (
                                 <button 
                                     className="cancel-btn"
                                     onClick={() => cancelBooking(booking._id)}

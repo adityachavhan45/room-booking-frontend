@@ -4,6 +4,7 @@ import DashboardHome from './Dashboard/DashboardHome';
 import UserManagement from './Dashboard/UserManagement';
 import BookingManagement from './Dashboard/BookingManagement';
 import RoomManagement from './Dashboard/RoomManagement';
+import AdminUsers from './AdminUsers/AdminUsers';
 import './Dashboard/Dashboard.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Dashboard/Dashboard.css';
@@ -86,6 +87,18 @@ const AdminDashboard = () => {
             <i className="fas fa-door-open"></i>
             Rooms
           </a>
+          <a 
+            href="#"
+            className={activePage === 'admin-users' ? 'active' : ''}
+            onClick={(e) => {
+              e.preventDefault();
+              setActivePage('admin-users');
+              navigate('/admin/dashboard/admin-users');
+            }}
+          >
+            <i className="fas fa-user-shield"></i>
+            Admin Users
+          </a>
           <button onClick={handleLogout} className="logout-btn">
             <i className="fas fa-sign-out-alt"></i> Logout
           </button>
@@ -98,6 +111,7 @@ const AdminDashboard = () => {
           <Route path="users" element={<UserManagement />} />
           <Route path="bookings" element={<BookingManagement />} />
           <Route path="rooms" element={<RoomManagement />} />
+          <Route path="admin-users" element={<AdminUsers />} />
         </Routes>
       </div>
     </div>

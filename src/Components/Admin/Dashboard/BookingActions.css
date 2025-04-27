@@ -1,0 +1,81 @@
+.table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-confirm,
+.btn-reject,
+.btn-complete,
+.btn-cancel {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 80px;
+  color: white;
+}
+
+.btn-confirm {
+  background-color: #4CAF50;
+}
+
+.btn-confirm:hover {
+  background-color: #45a049;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.btn-reject,
+.btn-cancel {
+  background-color: #f44336;
+}
+
+.btn-reject:hover,
+.btn-cancel:hover {
+  background-color: #e53935;
+  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
+}
+
+.btn-complete {
+  background-color: #2196F3;
+}
+
+.btn-complete:hover {
+  background-color: #1976D2;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+}
+
+/* Status badge styles */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-confirmed {
+  background-color: #E3F2FD;
+  color: #1976D2;
+}
+
+.status-pending {
+  background-color: #FFF3E0;
+  color: #F57C00;
+}
+
+.status-completed {
+  background-color: #E8F5E9;
+  color: #388E3C;
+}
+
+.status-cancelled,
+.status-rejected {
+  background-color: #FFEBEE;
+  color: #D32F2F;
+}

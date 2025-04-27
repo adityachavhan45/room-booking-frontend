@@ -16,7 +16,7 @@ const RoomManagement = () => {
     type: '',
     price: '',
     description: '',
-    image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop',
+    image: '',
     amenities: [],
     capacity: {
       adults: 2,
@@ -37,7 +37,7 @@ const RoomManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/rooms', config);
+      const response = await axios.get('http://localhost:5000/api/admin/rooms', config);
       setRooms(response.data.data);
       setLoading(false);
       setError('');
@@ -60,14 +60,17 @@ const RoomManagement = () => {
         price: Number(newRoom.price),
         description: newRoom.description,
         image: newRoom.image,
-        capacity: newRoom.capacity,
+        capacity: {
+          adults: Number(newRoom.capacity.adults),
+          children: Number(newRoom.capacity.children)
+        },
         size: newRoom.size,
         bed: newRoom.bed,
         amenities: newRoom.amenities,
         available: true
       };
 
-      const response = await axios.post('https://room-booking-backend-9vb5.onrender.com/api/admin/rooms', roomData, {
+      const response = await axios.post('http://localhost:5000/api/admin/rooms', roomData, {
         headers: { 
           'Authorization': `Bearer ${adminToken}`,
           'Content-Type': 'application/json'
@@ -80,7 +83,7 @@ const RoomManagement = () => {
           type: '',
           price: '',
           description: '',
-          image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop',
+          image: '',
           amenities: [],
           capacity: {
             adults: 2,
@@ -90,7 +93,7 @@ const RoomManagement = () => {
           bed: 'Single Bed'
         });
         setShowAddForm(false);
-        await fetchRooms(); // Wait for rooms to be fetched
+        await fetchRooms();
       }
     } catch (error) {
       console.error('Error adding room:', error);
@@ -104,7 +107,6 @@ const RoomManagement = () => {
     try {
       const adminToken = localStorage.getItem('adminToken');
       
-      // Ensure capacity values are numbers
       const roomData = {
         name: editingRoom.name,
         type: editingRoom.type,
@@ -118,16 +120,14 @@ const RoomManagement = () => {
         size: editingRoom.size,
         bed: editingRoom.bed,
         amenities: editingRoom.amenities,
-        available: editingRoom.available !== undefined ? editingRoom.available : true
+        available: editingRoom.available
       };
 
-      console.log('Sending room data:', roomData); // Debug log
-
       const response = await axios.put(
-        `https://room-booking-backend-9vb5.onrender.com/api/admin/rooms/${editingRoom._id}`,
+        `http://localhost:5000/api/admin/rooms/${editingRoom._id}`,
         roomData,
         {
-          headers: { 
+          headers: {
             'Authorization': `Bearer ${adminToken}`,
             'Content-Type': 'application/json'
           }
@@ -137,7 +137,6 @@ const RoomManagement = () => {
       if (response.data.success) {
         setEditingRoom(null);
         await fetchRooms();
-        setError('Room updated successfully!');
       }
     } catch (error) {
       console.error('Error updating room:', error);
@@ -154,7 +153,7 @@ const RoomManagement = () => {
           headers: { Authorization: `Bearer ${adminToken}` }
         };
 
-        const response = await axios.delete(`https://room-booking-backend-9vb5.onrender.com/api/admin/rooms/${roomId}`, config);
+        const response = await axios.delete(`http://localhost:5000/api/admin/rooms/${roomId}`, config);
         if (response.data.success) {
           await fetchRooms();
         }
@@ -260,13 +259,23 @@ const RoomManagement = () => {
             </div>
 
             <div className="form-group">
-              <label>Room Image</label>
+              <label>Room Image URL</label>
               <input
                 type="text"
                 value={newRoom.image}
                 onChange={(e) => setNewRoom({...newRoom, image: e.target.value})}
+                placeholder="Enter image URL"
                 required
               />
+              {newRoom.image && (
+                <img 
+                  src={newRoom.image} 
+                  alt="Room preview" 
+                  className="preview-image"
+                  style={{maxWidth: '200px', marginTop: '10px'}}
+                  onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop'}
+                />
+              )}
             </div>
 
             <div className="form-group">
@@ -399,13 +408,23 @@ const RoomManagement = () => {
             </div>
 
             <div className="form-group">
-              <label>Image URL</label>
+              <label>Room Image URL</label>
               <input
                 type="text"
                 value={editingRoom.image}
                 onChange={(e) => setEditingRoom({...editingRoom, image: e.target.value})}
+                placeholder="Enter image URL"
                 required
               />
+              {editingRoom.image && (
+                <img 
+                  src={editingRoom.image} 
+                  alt="Room preview" 
+                  className="preview-image"
+                  style={{maxWidth: '200px', marginTop: '10px'}}
+                  onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop'}
+                />
+              )}
             </div>
 
             <div className="form-group">
@@ -533,7 +552,12 @@ const RoomManagement = () => {
                   <tr key={room._id}>
                     <td>
                       <div className="room-name-cell">
-                        <img src={room.image} alt={room.name} className="room-thumbnail" />
+                        <img 
+                          src={room.image} 
+                          alt={room.name} 
+                          className="room-thumbnail"
+                          onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop'}
+                        />
                         <span>{room.name}</span>
                       </div>
                     </td>

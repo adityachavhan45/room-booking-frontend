@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaSearch, FaTrash, FaEdit, FaEnvelope, FaPhone, FaCalendar } from 'react-icons/fa';
+import { FaSearch, FaTrash, FaEdit, FaEnvelope, FaPhone, FaCalendar, FaTimes, FaKey } from 'react-icons/fa';
 import './Dashboard.css';
 import { toast } from 'react-toastify';
 
@@ -8,6 +8,14 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [editingUser, setEditingUser] = useState(null);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -21,12 +29,65 @@ const UserManagement = () => {
       };
 
       const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/users', config);
-      setUsers(response.data);
+      setUsers(response.data.data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast.error('Failed to load users');
       setLoading(false);
+    }
+  };
+
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setEditFormData({
+      name: user.name,
+      email: user.email,
+      phone: user.phone || ''
+    });
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      const config = {
+        headers: { Authorization: `Bearer ${adminToken}` }
+      };
+
+      await axios.put(
+        `https://room-booking-backend-9vb5.onrender.com/api/admin/users/${editingUser._id}`,
+        editFormData,
+        config
+      );
+
+      toast.success('User updated successfully');
+      setEditingUser(null);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error updating user:', error);
+      toast.error(error.response?.data?.message || 'Failed to update user');
+    }
+  };
+
+  const handleUpdatePassword = async () => {
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      const config = {
+        headers: { Authorization: `Bearer ${adminToken}` }
+      };
+
+      await axios.put(
+        `https://room-booking-backend-9vb5.onrender.com/api/admin/users/${editingUser._id}/password`,
+        { newPassword },
+        config
+      );
+
+      toast.success('Password updated successfully');
+      setShowPasswordModal(false);
+      setNewPassword('');
+    } catch (error) {
+      console.error('Error updating password:', error);
+      toast.error(error.response?.data?.message || 'Failed to update password');
     }
   };
 
@@ -38,7 +99,7 @@ const UserManagement = () => {
           headers: { Authorization: `Bearer ${adminToken}` }
         };
 
-        await axios.delete(`https://room-booking-backend-9vb5.onrender.com/admin/users/${userId}`, config);
+        await axios.delete(`https://room-booking-backend-9vb5.onrender.com/api/admin/users/${userId}`, config);
         toast.success('User deleted successfully');
         fetchUsers(); // Refresh the users list
       } catch (error) {
@@ -59,6 +120,76 @@ const UserManagement = () => {
 
   return (
     <div className="user-management">
+      {editingUser && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h3>Edit User</h3>
+              <button className="close-btn" onClick={() => setEditingUser(null)}>
+                <FaTimes />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  value={editFormData.name}
+                  onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                />
+              </div>
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  type="email"
+                  value={editFormData.email}
+                  onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                />
+              </div>
+              <div className="form-group">
+                <label>Phone:</label>
+                <input
+                  type="tel"
+                  value={editFormData.phone}
+                  onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
+                />
+              </div>
+              <div className="modal-actions">
+                <button className="btn-primary" onClick={handleUpdateUser}>Save Changes</button>
+                <button className="btn-secondary" onClick={() => setShowPasswordModal(true)}>
+                  <FaKey /> Change Password
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPasswordModal && editingUser && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h3>Change Password</h3>
+              <button className="close-btn" onClick={() => setShowPasswordModal(false)}>
+                <FaTimes />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label>New Password:</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <div className="modal-actions">
+                <button className="btn-primary" onClick={handleUpdatePassword}>Update Password</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="page-header">
         <h2>User Management</h2>
         <div className="search-bar">
@@ -122,7 +253,11 @@ const UserManagement = () => {
                   </td>
                   <td>
                     <div className="table-actions">
-                      <button className="btn-edit" title="Edit user">
+                      <button 
+                        className="btn-edit" 
+                        title="Edit user"
+                        onClick={() => handleEditUser(user)}
+                      >
                         <FaEdit />
                       </button>
                       <button 

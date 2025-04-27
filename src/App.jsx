@@ -23,6 +23,7 @@ const AdminLogin = lazy(() => import('./Components/Admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('./Components/Admin/AdminDashboard'));
 const MyBookings = lazy(() => import('./Components/User/MyBookings'));
 const UserProfile = lazy(() => import('./Components/User/UserProfile'));
+const BookingProcess = lazy(() => import('./Components/Booking/BookingProcess'));
 
 // Page transition variants
 const pageVariants = {
@@ -136,30 +137,7 @@ function App() {
                               <Rooms />
                             </motion.div>
                           } />
-                          {/* <Route path="/facilities" element={
-                            <motion.div
-                              initial="initial"
-                              animate="in"
-                              exit="out"
-                              variants={pageVariants}
-                              transition={pageTransition}
-                              className="page-transition"
-                            >
-                              <Facilities />
-                            </motion.div>
-                          } /> */}
-                          {/* <Route path="/offers" element={
-                            <motion.div
-                              initial="initial"
-                              animate="in"
-                              exit="out"
-                              variants={pageVariants}
-                              transition={pageTransition}
-                              className="page-transition"
-                            >
-                              <Offers />
-                            </motion.div>
-                          } /> */}
+                         
                           <Route path="/contact" element={
                             <motion.div
                               initial="initial"
@@ -220,7 +198,18 @@ function App() {
                               <UserProfile />
                             </motion.div>
                           } />
-                          
+                          <Route path="/booking-process" element={
+                            <motion.div
+                              initial="initial"
+                              animate="in"
+                              exit="out"
+                              variants={pageVariants}
+                              transition={pageTransition}
+                              className="page-transition"
+                            >
+                              <BookingProcess />
+                            </motion.div>
+                          } />
                         </Routes>
                       </Suspense>
                     </main>

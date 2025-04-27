@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
+import './BookingActions.css';
+import { toast } from 'react-toastify';
 
 const BookingManagement = () => {
   const [bookings, setBookings] = useState([]);
@@ -18,7 +20,7 @@ const BookingManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/bookings', config);
+      const response = await axios.get('http://localhost:5000/api/bookings/admin/all', config);
       setBookings(response.data.data || []);
       setLoading(false);
     } catch (error) {
@@ -34,7 +36,7 @@ const BookingManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
   
-      await axios.patch(`https://room-booking-backend-9vb5.onrender.com/api/admin/bookings/${bookingId}/status`, {
+      await axios.patch(`http://localhost:5000/api/admin/bookings/${bookingId}/status`, {
         status: newStatus
       }, config);
   
@@ -52,9 +54,11 @@ const BookingManagement = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'booked': return 'status-confirmed';
+      case 'confirmed': return 'status-confirmed';
+      case 'pending': return 'status-pending';
       case 'cancelled': return 'status-cancelled';
       case 'completed': return 'status-completed';
+      case 'rejected': return 'status-rejected';
       default: return '';
     }
   };
@@ -122,11 +126,11 @@ const BookingManagement = () => {
                 {filteredBookings.map(booking => (
                   <tr key={booking._id}>
                     <td>{formatDate(booking.createdAt)}</td>
-                    <td>{booking.userName}</td>
+                    <td>{booking.userName || (booking.userId && booking.userId.name) || 'N/A'}</td>
                     <td>{booking.roomName}</td>
-                    <td>{booking.checkIn}</td>
-                    <td>{booking.checkOut}</td>
-                    <td>{booking.adults + booking.children}</td>
+                    <td>{formatDate(booking.checkIn)}</td>
+                    <td>{formatDate(booking.checkOut)}</td>
+                    <td>{booking.adults + (booking.children || 0)}</td>
                     <td>₹{booking.totalAmount}</td>
                     <td>
                       <span className={`payment-method ${booking.paymentMethod === 'online' ? 'payment-online' : 'payment-cash'}`}>
@@ -139,22 +143,40 @@ const BookingManagement = () => {
                       </span>
                     </td>
                     <td>
-                      {booking.status === 'booked' && (
-                        <div className="table-actions">
-                          <button 
-                            className="btn-complete"
-                            onClick={() => handleStatusChange(booking._id, 'completed')}
-                          >
-                            Complete
-                          </button>
-                          <button 
-                            className="btn-cancel"
-                            onClick={() => handleStatusChange(booking._id, 'cancelled')}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      )}
+                      <div className="table-actions">
+                        {booking.status === 'pending' && (
+                          <>
+                            <button 
+                              className="btn-confirm"
+                              onClick={() => handleStatusChange(booking._id, 'confirmed')}
+                            >
+                              Confirm
+                            </button>
+                            <button 
+                              className="btn-reject"
+                              onClick={() => handleStatusChange(booking._id, 'rejected')}
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
+                        {booking.status === 'confirmed' && (
+                          <>
+                            <button 
+                              className="btn-complete"
+                              onClick={() => handleStatusChange(booking._id, 'completed')}
+                            >
+                              Complete
+                            </button>
+                            <button 
+                              className="btn-cancel"
+                              onClick={() => handleStatusChange(booking._id, 'cancelled')}
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

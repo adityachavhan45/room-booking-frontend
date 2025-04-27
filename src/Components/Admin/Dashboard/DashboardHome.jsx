@@ -22,7 +22,7 @@ const DashboardHome = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/stats', config);
+      const response = await axios.get('http://localhost:5000/api/admin/stats', config);
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -38,7 +38,7 @@ const DashboardHome = () => {
           <div className="stat-icon">
             <i className="fas fa-rupee-sign"></i>
           </div>
-          <h3>Total Sales</h3>
+          <h3>Total Profit</h3>
           <div className="stat-number">₹{stats.totalRevenue || '150,000'}</div>
         </div>
         
@@ -46,7 +46,7 @@ const DashboardHome = () => {
           <div className="stat-icon">
             <i className="fas fa-chart-line"></i>
           </div>
-          <h3>Monthly Sales</h3>
+          <h3>Monthly Profit</h3>
           <div className="stat-number">₹{stats.monthlyRevenue || '45,000'}</div>
         </div>
         
@@ -54,7 +54,7 @@ const DashboardHome = () => {
           <div className="stat-icon">
             <i className="fas fa-shopping-cart"></i>
           </div>
-          <h3>Total Orders</h3>
+          <h3>Total Bookings</h3>
           <div className="stat-number">{stats.totalBookings || '250'}</div>
         </div>
         
@@ -62,7 +62,7 @@ const DashboardHome = () => {
           <div className="stat-icon">
             <i className="fas fa-times-circle"></i>
           </div>
-          <h3>Cancelled Orders</h3>
+          <h3>Cancelled Bookings</h3>
           <div className="stat-number">{stats.cancelledBookings || '12'}</div>
         </div>
       </div>
