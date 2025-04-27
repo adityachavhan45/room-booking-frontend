@@ -19,7 +19,7 @@ const BookingProcess = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const room = location.state?.room;
-
+  
   const [bookingData, setBookingData] = useState({
     checkIn: '',
     checkOut: '',
@@ -52,39 +52,53 @@ const BookingProcess = () => {
 
   const handleBookingSubmit = async (paymentMethod) => {
     const storedToken = localStorage.getItem('userToken');
-    
+
     if (!storedToken) {
       navigate('/login', { state: { returnUrl: '/booking-process', roomData: room } });
       return;
     }
 
+    // Validate required fields
+    if (!bookingData.checkIn || !bookingData.checkOut || !bookingData.adults) {
+      alert('Please fill all required fields: Check-in date, Check-out date, and Number of Adults');
+      return;
+    }
+
     try {
+      // Create request body according to backend requirements
+      const requestBody = {
+        roomId: room._id,
+        roomName: room.name,
+        checkIn: bookingData.checkIn,
+        checkOut: bookingData.checkOut,
+        adults: bookingData.adults,
+        children: bookingData.children,
+        totalAmount: totalPrice,
+        paymentMethod: paymentMethod
+      };
+      
       const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/bookings', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${storedToken}`
         },
-        body: JSON.stringify({
-          roomId: room._id,
-          checkIn: bookingData.checkIn,
-          checkOut: bookingData.checkOut,
-          adults: bookingData.adults,
-          children: bookingData.children,
-          paymentMethod: paymentMethod,
-          totalAmount: totalPrice
-        })
+        body: JSON.stringify(requestBody)
       });
 
       const data = await response.json();
+      
       if (data.success) {
-        alert('Booking successful!');
+        if (paymentMethod === 'cash') {
+          alert('Room booked successfully! Please pay at check-in. Your booking status is pending until payment is confirmed.');
+        } else {
+          alert('Booking successful!');
+        }
         navigate('/my-bookings');
       } else {
-        alert('Error: ' + data.message);
+        alert('Error: ' + (data.message || 'Failed to create booking. Please try again.'));
       }
     } catch (error) {
-      console.error('Booking error:', error);
       alert('Server error. Please try again later.');
     }
   };
@@ -154,9 +168,6 @@ const BookingProcess = () => {
           checkIn: bookingData.checkIn,
           checkOut: bookingData.checkOut
         },
-        theme: {
-          color: '#3399cc'
-        },
         handler: async (response) => {
           try {
             setLoading(true);
@@ -178,7 +189,9 @@ const BookingProcess = () => {
                   checkOut: bookingData.checkOut,
                   adults: bookingData.adults,
                   children: bookingData.children,
-                  totalAmount: totalPrice
+                  totalAmount: totalPrice,
+                  roomType: room.type,
+                  roomNumber: room.number
                 }
               })
             });
@@ -196,7 +209,6 @@ const BookingProcess = () => {
               throw new Error(data.message || 'Payment verification failed');
             }
           } catch (error) {
-            console.error('Payment verification error:', error);
             alert('Payment verification failed. Please contact support with this ID: ' + response.razorpay_payment_id);
           } finally {
             setLoading(false);
@@ -207,8 +219,7 @@ const BookingProcess = () => {
       const razorpayInstance = new window.Razorpay(options);
       razorpayInstance.open();
     } catch (error) {
-      console.error('Payment error:', error);
-      alert('Error initiating payment: ' + (error.message || 'Please try again.'));
+      alert('Error initiating payment. Please try again.');
     }
   };
 
