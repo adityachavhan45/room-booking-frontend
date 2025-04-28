@@ -7,6 +7,7 @@ import './Admin.css';
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -16,9 +17,9 @@ const AdminLogin = () => {
     try {
       const response = await axios.post('https://room-booking-backend-9vb5.onrender.com/api/admin-auth/login', {
         username: DOMPurify.sanitize(username),
-        password
+        password,
       });
-      
+
       if (response.data.token) {
         localStorage.setItem('adminToken', response.data.token);
         navigate('/admin/dashboard');
@@ -37,6 +38,10 @@ const AdminLogin = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <div className="admin-login-container">
       <div className="admin-login-box">
@@ -52,14 +57,21 @@ const AdminLogin = () => {
               required
             />
           </div>
-          <div className="form-group">
+          <div className="form-group password-group">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              onClick={toggleShowPassword}
+              className="toggle-password-btn"
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
           </div>
           <button type="submit" className="admin-login-btn">
             Login

@@ -1,3 +1,4 @@
+/* Admin Login Page */
 .admin-login-container {
   display: flex;
   justify-content: center;
@@ -33,28 +34,61 @@
   font-size: 1rem;
 }
 
+/* Password field with Show/Hide button */
+.password-group {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-group input {
+  flex: 1;
+  padding-right: 4rem; /* space for button */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.toggle-password-btn:hover {
+  text-decoration: underline;
+}
+
+/* Button */
 .admin-login-btn {
   width: 100%;
   padding: 0.8rem;
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  margin-top: 1rem;
 }
 
 .admin-login-btn:hover {
-  background-color: #0056b3;
+  background-color: #c22206;
 }
 
+/* Error Message */
 .error-message {
   color: #dc3545;
   text-align: center;
   margin-bottom: 1rem;
 }
 
-/* Dashboard Styles */
+/* Dashboard Styles (if you have) */
 .admin-dashboard {
   min-height: 100vh;
   background-color: #f8f9fa;
