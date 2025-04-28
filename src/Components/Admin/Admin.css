@@ -68,7 +68,7 @@
 .admin-login-btn {
   width: 100%;
   padding: 0.8rem;
-  background-color: #000000;
+  background-color:#c22206;
   color: white;
   border: none;
   border-radius: 4px;
@@ -78,7 +78,7 @@
 }
 
 .admin-login-btn:hover {
-  background-color: #c22206;
+  background-color: #000000;
 }
 
 /* Error Message */
