@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin-auth/verify', {
+        const response = await axios.get('https://room-booking-backend-std3.onrender.com/api/admin-auth/verify', {
           headers: {
             Authorization: `Bearer ${token}`
           }

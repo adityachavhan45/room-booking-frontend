@@ -29,8 +29,8 @@ export default function Login() {
     const endpoint = isLogin ? 'login' : 'register';
     
     try {
-      const response = await fetch(`https://room-booking-backend-9vb5.onrender.com/api/auth/${endpoint}`, {
-        method: 'POST',
+      const response = await fetch(`https://room-booking-backend-std3.onrender.com/api/auth/${endpoint}`, {
+        method: 'POST',             
         headers: {
           'Content-Type': 'application/json',
         },

@@ -15,7 +15,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('https://room-booking-backend-9vb5.onrender.com/api/admin-auth/login', {
+      const response = await axios.post('https://room-booking-backend-std3.onrender.com/api/admin-auth/login', {
         username: DOMPurify.sanitize(username),
         password,
       });

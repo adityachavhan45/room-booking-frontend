@@ -17,7 +17,7 @@ const UserProfile = () => {
           return;
         }
 
-        const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/users/profile', {
+        const response = await fetch('https://room-booking-backend-std3.onrender.com/api/users/profile', {
           headers: {
             Authorization: `Bearer ${token}`
           }

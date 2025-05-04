@@ -28,7 +28,7 @@ const UserManagement = () => {
         headers: { Authorization: `Bearer ${adminToken}` }
       };
 
-      const response = await axios.get('https://room-booking-backend-9vb5.onrender.com/api/admin/users', config);
+      const response = await axios.get('https://room-booking-backend-std3.onrender.com/api/admin/users', config);
       setUsers(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -55,7 +55,7 @@ const UserManagement = () => {
       };
 
       await axios.put(
-        `https://room-booking-backend-9vb5.onrender.com/api/admin/users/${editingUser._id}`,
+        `https://room-booking-backend-std3.onrender.com/api/admin/users/${editingUser._id}`,
         editFormData,
         config
       );
@@ -77,7 +77,7 @@ const UserManagement = () => {
       };
 
       await axios.put(
-        `https://room-booking-backend-9vb5.onrender.com/api/admin/users/${editingUser._id}/password`,
+        `https://room-booking-backend-std3.onrender.com/api/admin/users/${editingUser._id}/password`,
         { newPassword },
         config
       );
@@ -99,7 +99,7 @@ const UserManagement = () => {
           headers: { Authorization: `Bearer ${adminToken}` }
         };
 
-        await axios.delete(`https://room-booking-backend-9vb5.onrender.com/api/admin/users/${userId}`, config);
+        await axios.delete(`https://room-booking-backend-std3.onrender.com/api/admin/users/${userId}`, config);
         toast.success('User deleted successfully');
         fetchUsers(); // Refresh the users list
       } catch (error) {

@@ -77,7 +77,7 @@ const BookingProcess = () => {
         paymentMethod: paymentMethod
       };
       
-      const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/bookings', {
+      const response = await fetch('https://room-booking-backend-std3.onrender.com/api/bookings', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const BookingProcess = () => {
         return;
       }
 
-      const orderResponse = await fetch('https://room-booking-backend-9vb5.onrender.com/api/payment/create-order', {
+      const orderResponse = await fetch('https://room-booking-backend-std3.onrender.com/api/payment/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ const BookingProcess = () => {
           try {
             setLoading(true);
             
-            const verifyResponse = await fetch('https://room-booking-backend-9vb5.onrender.com/api/payment/verify', {
+            const verifyResponse = await fetch('https://room-booking-backend-std3.onrender.com/api/payment/verify', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

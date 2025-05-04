@@ -12,7 +12,7 @@ const Rooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('https://room-booking-backend-9vb5.onrender.com/api/rooms');
+        const response = await fetch('https://room-booking-backend-std3.onrender.com/api/rooms');
         const data = await response.json();
         if (data.success) {
           setRooms(data.data);
